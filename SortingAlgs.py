@@ -20,3 +20,9 @@ def __init__(self, width, height, list):
     self.height= height
     
     self.window= pygame.display.set_mode((width, height))
+    pygame.display.set_caption("Sorting Algorithm Visualizer")
+    self.list(list)
+
+
+def set_list(self,list):
+    pass

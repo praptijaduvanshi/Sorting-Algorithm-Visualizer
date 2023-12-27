@@ -15,6 +15,12 @@ class gameInformation:
     BLUE= 0, 0, 255
     BACKGROUND_COLOR= WHITE
 
+    GREY_GRADIENTS = [
+        GREY,
+        (160, 160, 160),
+        (192, 192, 192)
+    ]
+
     SIDE_PAD=100
     TOP_PAD= 150
 
@@ -45,6 +51,23 @@ def generate_start_list(n, minimum_val, maximum_val):
     
     return list
 
+#General screen
+def draw(draw_info):
+    draw_info.window.fill(draw_info.BACKGROUND_COLOR)
+    draw_list(draw_info)
+    pygame.display.update()
+   
+#List details screen for sorting
+def draw_list(draw_info):
+    list= draw_info.list 
+
+    for i, val in enumerate(list):
+        x= draw_info.start_x + i * draw_info.block_width
+        y= draw_info.height - (val - draw_info.minimum_val) * draw_info.block_height
+
+        color= draw_info.GREY_GRADIENTS[i % 3]
+        pygame.draw.rect(draw_info.window, color, (x, y, draw_info.block_width, draw_info.height))
+
 #Render the screen, set up main event loop
 def main():
     run = True
@@ -59,6 +82,7 @@ def main():
 
     while run:
         clock.tick(60)
+        draw(draw_info)
         pygame.display.update()
 
         for event in pygame.event.get():

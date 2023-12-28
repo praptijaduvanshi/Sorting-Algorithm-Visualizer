@@ -4,6 +4,7 @@ import random
 import pygame
 pygame.init()
 
+pygame.font.get_fonts()
 #Set up pygame window and global values
 
 class gameInformation:
@@ -15,11 +16,14 @@ class gameInformation:
     BLUE= 0, 0, 255
     BACKGROUND_COLOR= WHITE
 
-    GREY_GRADIENTS = [
-        GREY,
-        (160, 160, 160),
-        (192, 192, 192)
+    GRADIENTS = [
+        (169, 124, 192),
+        (203, 178, 216),
+        (229, 214, 236)
     ]
+
+    FONT= pygame.font.SysFont("Arial", 30)
+    FONT= pygame.font.SysFont("Arial", 40)
 
     SIDE_PAD=100
     TOP_PAD= 150
@@ -54,6 +58,7 @@ def generate_start_list(n, minimum_val, maximum_val):
 #General screen
 def draw(draw_info):
     draw_info.window.fill(draw_info.BACKGROUND_COLOR)
+
     draw_list(draw_info)
     pygame.display.update()
    
@@ -65,7 +70,7 @@ def draw_list(draw_info):
         x= draw_info.start_x + i * draw_info.block_width
         y= draw_info.height - (val - draw_info.minimum_val) * draw_info.block_height
 
-        color= draw_info.GREY_GRADIENTS[i % 3]
+        color= draw_info.GRADIENTS[i % 3]
         pygame.draw.rect(draw_info.window, color, (x, y, draw_info.block_width, draw_info.height))
 
 #Render the screen, set up main event loop
@@ -79,6 +84,8 @@ def main():
 
     list= generate_start_list(n,minimum_val,maximum_val)
     draw_info= gameInformation(800, 600, list)
+    sorting= False
+    ascending = True
 
     while run:
         clock.tick(60)
@@ -88,6 +95,24 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame. QUIT:
                 run = False
+            
+            if event.type != pygame.KEYDOWN:
+                continue
+
+            if event.key == pygame.K_r:
+                list= generate_start_list(n,minimum_val,maximum_val)
+                draw_info.set_list(list)
+                sorting= False
+
+            elif event.key == pygame.K_SPACE and sorting== False:
+                sorting = True
+            
+            elif event.key == pygame.K_a and not sorting:
+                ascending = True
+                
+            elif event.key == pygame.K_d and not sorting:
+                ascending= False
+    
 
     pygame.quit
 

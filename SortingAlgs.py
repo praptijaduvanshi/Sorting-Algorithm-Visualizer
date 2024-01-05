@@ -140,6 +140,101 @@ def insertion_sort(draw_info, ascending=True):
     
     return list
 
+# Selection sort
+def selection_sort(draw_info, ascending=True):
+    list = draw_info.list
+
+    for i in range(len(list)):
+        min_idx = i
+        for j in range(i + 1, len(list)):
+            if (list[j] < list[min_idx] and ascending) or (list[j] > list[min_idx] and not ascending):
+                min_idx = j
+
+        list[i], list[min_idx] = list[min_idx], list[i]
+        draw_list(draw_info, {i: draw_info.GREEN, min_idx: draw_info.RED}, True)
+        yield True
+
+    return list
+
+# Merge sort
+def merge_sort(draw_info, ascending=True):
+    def merge(arr, l, m, r):
+        n1 = m - l + 1
+        n2 = r - m
+
+        L = arr[l:l + n1]
+        R = arr[m + 1:m + 1 + n2]
+
+        i = j = 0
+        k = l
+
+        while i < n1 and j < n2:
+            if (L[i] <= R[j] and ascending) or (L[i] >= R[j] and not ascending):
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            draw_list(draw_info, {k: draw_info.GREEN}, True)
+            yield True
+            k += 1
+
+        while i < n1:
+            arr[k] = L[i]
+            draw_list(draw_info, {k: draw_info.GREEN}, True)
+            yield True
+            i += 1
+            k += 1
+
+        while j < n2:
+            arr[k] = R[j]
+            draw_list(draw_info, {k: draw_info.GREEN}, True)
+            yield True
+            j += 1
+            k += 1
+
+    def merge_sort_helper(arr, l, r):
+        if l < r:
+            m = (l + r) // 2
+
+            yield from merge_sort_helper(arr, l, m)
+            yield from merge_sort_helper(arr, m + 1, r)
+
+            yield from merge(arr, l, m, r)
+
+    list = draw_info.list
+    yield from merge_sort_helper(list, 0, len(list) - 1)
+    return list
+
+# Quick sort
+def quick_sort(draw_info, ascending=True):
+    def partition(arr, low, high):
+        pivot = arr[high]
+        i = low - 1
+
+        for j in range(low, high):
+            if (arr[j] <= pivot and ascending) or (arr[j] >= pivot and not ascending):
+                i += 1
+                arr[i], arr[j] = arr[j], arr[i]
+                draw_list(draw_info, {i: draw_info.GREEN, j: draw_info.RED}, True)
+                yield True
+
+        arr[i + 1], arr[high] = arr[high], arr[i + 1]
+        draw_list(draw_info, {i + 1: draw_info.GREEN, high: draw_info.RED}, True)
+        yield True
+
+        return i + 1
+
+    def quick_sort_helper(arr, low, high):
+        if low < high:
+            pi = yield from partition(arr, low, high)
+
+            yield from quick_sort_helper(arr, low, pi - 1)
+            yield from quick_sort_helper(arr, pi + 1, high)
+
+    list = draw_info.list
+    yield from quick_sort_helper(list, 0, len(list) - 1)
+    return list
 
 #Render the screen, set up main event loop
 def main():

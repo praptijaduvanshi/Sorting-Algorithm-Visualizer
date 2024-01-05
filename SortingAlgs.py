@@ -25,7 +25,7 @@ class gameInformation:
 
     SMALL_FONT= pygame.font.SysFont("Arial", 20)
     FONT= pygame.font.SysFont("Arial", 25)
-    LARGE_FONT= pygame.font.SysFont("Arial", 40)
+    LARGE_FONT= pygame.font.SysFont("Arial", 30)
 
     SIDE_PAD=100
     TOP_PAD= 150
@@ -64,17 +64,14 @@ def draw(draw_info, algo_name, ascending):
     title= draw_info.LARGE_FONT.render(f"{algo_name}-{'Ascending' if ascending else 'Descending'}", 1, draw_info.BLUE)
     draw_info.window.blit(title, (draw_info.width/2-title.get_width()/2 , 5))
 
-    instructions= draw_info.SMALL_FONT.render("To Start Sorting Press a Key", 1, draw_info.BLACK)
-    draw_info.window.blit(instructions, (draw_info.width/2-instructions.get_width()/2 , 50))
+    instructions= draw_info.SMALL_FONT.render("To start sorting press the  following keys:", 1, draw_info.BLACK)
+    draw_info.window.blit(instructions, (draw_info.width/2-instructions.get_width()/2 , 43))
 
-    controls= draw_info.FONT.render("R- Reset | SPACE- Start Sorting | A- Ascending | D- Descending", 1, draw_info.BLACK)
+    controls= draw_info.SMALL_FONT.render("R- Reset | SPACE- Start Sorting | A- Ascending | D- Descending", 1, draw_info.BLACK)
     draw_info.window.blit(controls, (draw_info.width/2-controls.get_width()/2 , 75))
 
-    sorting1= draw_info.FONT.render("I- Insertion Sort | B- Bubble Sort | S- Selection Sort", 1, draw_info.BLACK)
+    sorting1= draw_info.SMALL_FONT.render("I- Insertion Sort | B- Bubble Sort | S- Selection Sort | Q- Quick Sort | M- Merge Sort", 1, draw_info.BLACK)
     draw_info.window.blit(sorting1, (draw_info.width/2-sorting1.get_width()/2 , 105))
-
-    sorting2= draw_info.FONT.render("Q- Quick Sort | M- Merge Sort", 1, draw_info.BLACK)
-    draw_info.window.blit(sorting2, (draw_info.width/2-sorting2.get_width()/2 , 135))
 
     draw_list(draw_info)
     pygame.display.update()
